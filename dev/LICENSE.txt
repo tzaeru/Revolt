@@ -1,0 +1,22 @@
+AUTHOR: Jalmari Ikävalko, aka tzaeru (at any major IRC server)
+EMAIL: jalmari.ikavalko@uta.fi
+
+LICENSE NAME: CANCER License
+
+THE CONDITIONS OF THIS LICENSE:
+
+1. If you modify or redistribute a major or a core part (such as synth or mixer codes) of this software,
+you are required to credit me (AUTHOR) as the author of the used code or data and include this text file
+with a name that suggests it's a license and keep this file unmodified.
+2. GPL sucks. Annoying jargon..
+3. All warranties and liabilities are void. They do not exists. Also, you must not bring trouble of any
+sort to me. Ever.
+4. If you meet me, you should consider offering somesort of an alcoholic beverage or cigarette;
+However, under any conditions, should the alcoholic beverage be beer or ale, nor should the cigarette
+be of a green type.
+
+5. Um, watch out for those Qt and SDL and whatnot parts. I've not a clue about their licenses.
+
+Not breaking them, honest.
+
+END OF CONDITIONS.
