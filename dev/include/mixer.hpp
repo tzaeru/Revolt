@@ -12,7 +12,7 @@
 
 class Mixer : public SoundObject{
 	private:
-		std::vector<Synth *>source;
+    std::vector<SoundObject *>source;
 		
 		std::vector<Sint16 *>samples;
 		
@@ -21,8 +21,8 @@ class Mixer : public SoundObject{
 		Mixer (int max_amp) : max_amplitude(max_amp) {};
 		void AddSynth(Synth* src);
 		
-		inline Sint16 Mix(Sint16* to_mix1, Sint16* to_mix2);
+		Sint16* GetSample();
 		
-		Sint16* GetSample(int length);
+		inline Sint16 Mix(Sint16* to_mix1, Sint16* to_mix2);
 };
 #endif

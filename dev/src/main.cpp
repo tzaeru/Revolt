@@ -3,41 +3,27 @@
 #include <iostream>
 #include <SDL/SDL.h>
 
+/* GUI related things */
+#include <QApplication>
+#include "mainwindow.h"
+
+
+/* Audio related things. */
 #include "preset_data.hpp"
 #include "synth.hpp"
 #include "sdl_sound_hardware.hpp"
 #include "mixer.hpp"
+/**********************/
 
-int max_amp = 32767;
+int main(int argc, char *argv[]) {
+	
+	QApplication app(argc, argv);
 
-//int argc, char *argv[]
-int main() {
-	PresetData preset_data;
-	preset_data.Init();
-	
-	Synth *synth = new Synth(100, max_amp/4, 48000, &preset_data);
-	Synth *synth2 = new Synth(440, max_amp/4, 48000, &preset_data);
-	
-	Mixer *mixer = new Mixer(max_amp);
-	mixer->AddSynth(synth);
-	mixer->AddSynth(synth2);
-	
-	SoundHardware* sound_hardware = new SDLSoundHardware(48000, mixer);
-	sound_hardware->Init();
+	MainWindow GUI;
 
-	int time = SDL_GetTicks();
+	GUI.show();
 	
-	for (int i = SDL_GetTicks(); i < time + 8000; i = SDL_GetTicks()) {
-		if (i%1000 > 750 || i%2000 > 1500) {
-			synth->SetFrequency(124);
-			synth2->SetFrequency(460);
-	}
-		else {
-			synth->SetFrequency(100);
-			synth2->SetFrequency(440);
-	}
-		
-	}
-
+	app.exec();
+	
 	return 0;
 }

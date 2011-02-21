@@ -42,10 +42,14 @@ class Synth : public SoundObject {
 		 */
 		Synth(float freq, int amp, int samp, PresetData * preset);
 		
-		void SetFrequency(float freq) { frequency = freq; }
-		
-		void Update(int length);
+    /*! Sets the amplitude. */
+    void SetAmplitude(int amp) { amplitude = amp; }
 
+    /*! Sets the frequency the synth is played at. Should be used with piano rolls and everything else soon enough. */
+		void SetFrequency(float freq) { frequency = freq; }
+
+    /*! Sets next sample ready; As only one thread is used at the moment, this is useless method. */
+    void Update();
 };
 
 #endif

@@ -8,8 +8,7 @@ float iOne = 0;
 Mixer* masta;
 
 void Callback2(void *u, Uint8 *final_sample, int length) {
-	
-	Sint16* sample = masta->GetSample(length);
+	Sint16* sample = masta->GetSample();
 	
 	Sint16 *temp = (Sint16*)final_sample;
 
@@ -33,20 +32,22 @@ void Callback2(void *u, Uint8 *final_sample, int length) {
 
 }
 
-SDLSoundHardware::SDLSoundHardware(int samp, Mixer* mix)
-	: SoundHardware(samp, mix) {
+SDLSoundHardware::SDLSoundHardware(int samp, int length)
+  : SoundHardware(samp, length) {
 }
 
 int SDLSoundHardware::Init() {
-		masta = mixer;
+	masta = mixer;
+	channels = 2;
+	mixer->SetSampleLength(sample_length * channels);
 
-	SDL_AudioSpec r={samplerate,AUDIO_S16,1,0,4096,0,0,Callback2,NULL};
-	
+	SDL_AudioSpec r={samplerate,AUDIO_S16,2,0,sample_length,0,0,Callback2,NULL};
+
 	SDL_OpenAudio(&r,NULL);
-	
- 	SDL_Delay(500);
+
+ 	SDL_Delay(250);
 
  	SDL_PauseAudio(0);
-	
+
 	return 1;
 }

@@ -13,10 +13,16 @@ class SoundHardware {
 		int samplerate;
 		/*! The mixer SoundHardware requests samples from. */
 		Mixer *mixer;
+		/*! Length of an individual sample. */
+		int sample_length;
+		/*! Amount of channels (suggesting 2) */
+		int channels;
 		
 	public:
-		SoundHardware(int samp, Mixer* mix);
-		
+    SoundHardware(int samp, int length);
+
+    void AddMixer(Mixer *_mixer) { mixer = _mixer; }
+
 		virtual int Init();
 };
 

@@ -8,7 +8,7 @@
 
 class SDLSoundHardware : public SoundHardware {
 	public:
-		SDLSoundHardware(int samp, Mixer* mix);
+    SDLSoundHardware(int samp, int length);
 		
 		int Init();
 };

@@ -2,8 +2,8 @@
 #include "sound_hardware.hpp"
 
 
-SoundHardware::SoundHardware(int samp, Mixer* mix)
-	: samplerate(samp), mixer(mix){
+SoundHardware::SoundHardware(int samp, int length)
+  : samplerate(samp), sample_length(length){
 
 
 }
