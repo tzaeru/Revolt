@@ -6,18 +6,17 @@
 
 #define PI 3.1416
 
-Synth::Synth(float freq, int amp, int samp, PresetData * preset)
-	: frequency(freq), amplitude(amp), samplerate(samp), preset_data(preset) {
+Synth::Synth(int samp){
+
+  samplerate = samp;
 	roller = 0;
 	
-	channel = 0;
-	
-	wave_length = preset_data->GetPreset(wave);
+  channel = 0;
 }
+
 
 void Synth::Update() {
 	//float increment = (2* PI) / (samplerate / (float)frequency);
-  printf("hei hei");
 	
 	increment = wave_length / (samplerate / (float)frequency);
 	/*
@@ -41,18 +40,3 @@ void Synth::Update() {
 	}
 	
 }
-
-/*
-void sa(void *u, Uint8 *s, int l) {
-	Sint16 *p = (Sint16*)s;
-	
-
-	increment = (2* PI) / (SAMPLERATE / (float)frequency); 
-	
-	for (;l > 0; l-=2) {
-		*p++ = amplitude * sin(iOne);
-		iOne += increment;
-	}
-	
-}
-*/

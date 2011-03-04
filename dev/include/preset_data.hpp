@@ -14,8 +14,11 @@
 
 class PresetData{
 	private:
+    /*! Pointers to the actual waves. */
 		std::vector <float *> waves;
+
 		std::vector <int> wave_lengths;
+    /*! Can be used to access presets by a name, such as "sine", "saw" etc. */
 		std::map <std::string, float*> preset_names;
 	public:
 		PresetData() {}

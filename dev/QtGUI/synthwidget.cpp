@@ -11,11 +11,22 @@ SynthWidget::SynthWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    synth = new Synth(220, 4095, 48000, &real_parent->preset_data);
+    float *wave;
+    int wave_length = real_parent->preset_data.GetPreset(wave);
 
-    printf("1\n");
-    real_parent->mixer->AddSynth(synth);
-     printf("666\n");
+    lfo = new LFO(48000);
+    lfo->SetAmplitude(1000);
+    lfo->SetFrequency(20);
+    lfo->SetWaveform(wave, wave_length);
+
+    synth = new Synth(48000);
+    synth->SetAmplitude(4095);
+    synth->SetFrequency(220);
+    synth->SetWaveform(wave, wave_length);
+
+
+    real_parent->mixer->AddSource(lfo);
+    lfo->AddSource(synth);
 }
 
 SynthWidget::~SynthWidget()
@@ -31,4 +42,14 @@ void SynthWidget::on_dial_valueChanged(int value)
 void SynthWidget::on_verticalSlider_valueChanged(int value)
 {
     synth->SetAmplitude(value);
+}
+
+void SynthWidget::on_dial_2_valueChanged(int value)
+{
+    lfo->SetAmplitude(value);
+}
+
+void SynthWidget::on_dial_3_valueChanged(int value)
+{
+    lfo->SetFrequency(value);
 }

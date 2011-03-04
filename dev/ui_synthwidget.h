@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'synthwidget.ui'
 **
-** Created: Mon Feb 21 05:48:08 2011
+** Created: Fri Mar 4 02:13:16 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -81,12 +81,14 @@ public:
         dial_2 = new QDial(groupBox);
         dial_2->setObjectName(QString::fromUtf8("dial_2"));
         dial_2->setGeometry(QRect(0, 80, 41, 31));
+        dial_2->setMaximum(32766);
         label_3 = new QLabel(groupBox);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(0, 60, 67, 17));
         dial_3 = new QDial(groupBox);
         dial_3->setObjectName(QString::fromUtf8("dial_3"));
         dial_3->setGeometry(QRect(100, 80, 31, 31));
+        dial_3->setMaximum(40);
         line = new QFrame(groupBox);
         line->setObjectName(QString::fromUtf8("line"));
         line->setGeometry(QRect(70, 0, 20, 111));

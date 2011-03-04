@@ -41,9 +41,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAdd_Synth_triggered()
 {
-  Synth * synth = new Synth(440, 32767/2, 48000, &preset_data);
-
-  mixer->AddSynth(synth);
+  mixer->AddSource(synth);
 
   wrapper.AddSoundObject("synth1", synth);
 

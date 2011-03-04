@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mixerwidget.ui'
 **
-** Created: Mon Feb 21 05:41:40 2011
+** Created: Fri Mar 4 01:33:50 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

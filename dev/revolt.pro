@@ -8,14 +8,18 @@
     include/wrapper.hpp \
     QtGUI/mixerwidget.h \
     QtGUI/synthwidget.h \
-    QtGUI/waveformwidget.h
+    QtGUI/waveformwidget.h \
+    include/waveform.hpp \
+    include/lfo.hpp
  HEADERS +=
  SOURCES += src/synth.cpp src/sound_hardware.cpp src/sdl_sound_hardware.cpp src/mixer.cpp src/preset_data.cpp \
     QtGUI/mainwindow.cpp \
     src/wrapper.cpp \
     QtGUI/mixerwidget.cpp \
     QtGUI/synthwidget.cpp \
-    QtGUI/waveformwidget.cpp
+    QtGUI/waveformwidget.cpp \
+    src/waveform.cpp \
+    src/lfo.cpp
  SOURCES += src/main.cpp
  SOURCES +=
  LIBS += -lSDL

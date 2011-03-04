@@ -9,15 +9,15 @@ Mixer* masta;
 
 void Callback2(void *u, Uint8 *final_sample, int length) {
 	Sint16* sample = masta->GetSample();
-	
+  printf("8\n");
 	Sint16 *temp = (Sint16*)final_sample;
-
+printf("9\n");
 	
 	for (int i = 0; i < length/2; i++)
 	{
 		*temp++ = sample[i];
 		}
-
+printf("10\n");
 	/*
 	Sint16 *p = (Sint16*)final_sample;
 	

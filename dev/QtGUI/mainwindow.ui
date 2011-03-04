@@ -20,7 +20,7 @@
    <string>Revoltophile</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow#MainWindow { background-color:qradialgradient(spread:reflect, cx:0.576, cy:0.386364, radius:0.329, fx:0.467, fy:0.681409, stop:0 rgba(154, 154, 154, 255), stop:0.461905 rgba(255, 255, 255, 255)) }</string>
+   <string notr="true">QMainWindow#MainWindow { background-color: qradialgradient(spread:reflect, cx:0.576, cy:0.386364, radius:0.329, fx:0.467, fy:0.681409, stop:0 rgba(214, 214, 214, 255), stop:0.461905 rgba(227, 227, 227, 255)) }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="MixerWidget" name="widget" native="true">

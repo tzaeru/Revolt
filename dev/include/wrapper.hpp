@@ -29,7 +29,7 @@ public:
   void AddSoundObject(std::string name, SoundObject * sound_object)
   { sound_objects.insert(std::pair<std::string, SoundObject*>(name, sound_object) ); }
 
-  void RemoveSoundObject();
+  void RemoveSoundObject(std::string name);
 };
 
 #endif // WRAPPER_HPP

@@ -16,7 +16,7 @@ WaveformWidget::WaveformWidget(QWidget *parent) :
 }
 
 void WaveformWidget::paintEvent(QPaintEvent *event) {
-    printf("test\n");
+
   QPainter painter(this);
 
   float *data;

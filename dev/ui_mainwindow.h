@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon Feb 21 05:41:40 2011
+** Created: Fri Mar 4 01:33:50 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -47,7 +47,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setStyleSheet(QString::fromUtf8("QMainWindow#MainWindow { background-color:qradialgradient(spread:reflect, cx:0.576, cy:0.386364, radius:0.329, fx:0.467, fy:0.681409, stop:0 rgba(154, 154, 154, 255), stop:0.461905 rgba(255, 255, 255, 255)) }"));
+        MainWindow->setStyleSheet(QString::fromUtf8("QMainWindow#MainWindow { background-color: qradialgradient(spread:reflect, cx:0.576, cy:0.386364, radius:0.329, fx:0.467, fy:0.681409, stop:0 rgba(214, 214, 214, 255), stop:0.461905 rgba(227, 227, 227, 255)) }"));
         actionAdd_Synth = new QAction(MainWindow);
         actionAdd_Synth->setObjectName(QString::fromUtf8("actionAdd_Synth"));
         actionAdd_Synth->setCheckable(true);

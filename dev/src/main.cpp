@@ -1,4 +1,4 @@
-/*! main.cpp is not supposed to link mixer, hardware and synths together, but this shall do for now. */
+/*! main.cpp creates the UI environment which handles everything appropriately. */
 
 #include <iostream>
 #include <SDL/SDL.h>
