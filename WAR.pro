@@ -16,19 +16,21 @@ SOURCES += main.cpp\
     nodes/slot.cpp \
     nodes/wavegraph.cpp \
     nodes/addition.cpp \
-    QtGUI/nodegroup.cpp \
-    QtGUI/mainwindow.cpp \
-    QtGUI/basicnode.cpp
+    QtGUI/qnodegroup.cpp \
+    QtGUI/qbasicnode.cpp \
+    QtGUI/qslot.cpp \
+    QtGUI/mainwindow.cpp
 
 HEADERS  += nodes/supernode.hpp \
     nodes/timer.hpp \
     nodes/slot.hpp \
     nodes/wavegraph.hpp \
     nodes/addition.hpp \
-    QtGUI/nodegroup.hpp \
-    QtGUI/basicnode.hpp \
-    QtGUI/mainwindow.hpp \
-    info.hpp
+    QtGUI/qnodegroup.hpp \
+    QtGUI/qbasicnode.hpp \
+    info.hpp \
+    QtGUI/qslot.hpp \
+    QtGUI/mainwindow.hpp
 
 FORMS    += QtGUI/mainwindow.ui \
     QtGUI/basicnode.ui

@@ -4,7 +4,7 @@
 #include "stdio.h"
 
 #include <QtGui>
-#include "nodegroup.hpp"
+#include "qnodegroup.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   setAcceptDrops(true);
 
-  QWidget *centralWidget = new NodeGroup(this);
+  QWidget *centralWidget = new QNodeGroup(this);
   setCentralWidget(centralWidget);
 
   /*
