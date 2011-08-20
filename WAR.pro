@@ -17,8 +17,8 @@ SOURCES += main.cpp\
     nodes/wavegraph.cpp \
     nodes/addition.cpp \
     QtGUI/qnodegroup.cpp \
-    QtGUI/mainwindow.cpp \
-    QtGUI/qbasicnode.cpp
+    QtGUI/qbasicnode.cpp \
+    QtGUI/mainwindow.cpp
 
 HEADERS  += nodes/supernode.hpp \
     nodes/timer.hpp \
