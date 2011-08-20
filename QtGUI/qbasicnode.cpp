@@ -1,7 +1,7 @@
-#include "basicnode.hpp"
+#include "qbasicnode.hpp"
 #include "ui_basicnode.h"
 
-BasicNode::BasicNode(QWidget *parent, QString name, int in, int out) :
+QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
     QFrame(parent),
     ui(new Ui::BasicNode)
 {
@@ -59,7 +59,7 @@ BasicNode::BasicNode(QWidget *parent, QString name, int in, int out) :
     this->resize(j * 13 + 13, nameLabel->height() + 28);
 }
 
-BasicNode::~BasicNode()
+QBasicNode::~QBasicNode()
 {
     delete ui;
 }

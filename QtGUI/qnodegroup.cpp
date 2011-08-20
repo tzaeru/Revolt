@@ -1,9 +1,9 @@
-#include "nodegroup.hpp"
-#include "basicnode.hpp"
+#include "qnodegroup.hpp"
+#include "qbasicnode.hpp"
 
 #include <QtGui>
 
-NodeGroup::NodeGroup(QWidget *parent)
+QNodeGroup::QNodeGroup(QWidget *parent)
   : QFrame(parent)
 {
   this->setObjectName("NodeGroup");
@@ -38,13 +38,13 @@ NodeGroup::NodeGroup(QWidget *parent)
   this->setMouseTracking(true);
 }
 
-NodeGroup::~NodeGroup()
+QNodeGroup::~QNodeGroup()
 {
 
 }
 
 
-void NodeGroup::mousePressEvent(QMouseEvent *event)
+void QNodeGroup::mousePressEvent(QMouseEvent *event)
 {
   /* Old TESTCASE
     QPainter painter(this->lineImage);
@@ -85,7 +85,7 @@ void NodeGroup::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void NodeGroup::mouseMoveEvent(QMouseEvent *event)
+void QNodeGroup::mouseMoveEvent(QMouseEvent *event)
 {
   if (moving)
   {
@@ -98,7 +98,7 @@ void NodeGroup::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-void NodeGroup::mouseReleaseEvent(QMouseEvent *event)
+void QNodeGroup::mouseReleaseEvent(QMouseEvent *event)
 {
   if (moving)
     moving = NULL;
@@ -108,7 +108,7 @@ void NodeGroup::mouseReleaseEvent(QMouseEvent *event)
   }
 }
 
-void NodeGroup::paintEvent(QPaintEvent * pEvent)
+void QNodeGroup::paintEvent(QPaintEvent * pEvent)
 {
     QPainter painter(this);
 
@@ -126,19 +126,19 @@ void NodeGroup::paintEvent(QPaintEvent * pEvent)
                      QPointF(qrand() % this->width(), qrand() % this->height()));*/
 }
 
-void NodeGroup::addNode()
+void QNodeGroup::addNode()
 {
   QAction * action = qobject_cast<QAction *>(sender());
   QString temp = action->text();
 
   if (temp == "Timer")
   {
-    QFrame *timer = new BasicNode(this, QString("timer"), 5, 0);
+    QFrame *timer = new QBasicNode(this, QString("timer"), 5, 0);
     timer->show();
   }
   else if (temp == "Addition")
   {
-    QFrame *timer = new BasicNode(this, QString("addition"), 4, 0);
+    QFrame *timer = new QBasicNode(this, QString("addition"), 4, 0);
     timer->show();
   }
 }

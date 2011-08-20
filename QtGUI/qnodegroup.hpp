@@ -14,16 +14,16 @@ namespace Ui {
     class NodeGroup;
 }
 
-class BasicNode;
+class QBasicNode;
 
-class NodeGroup : public QFrame
+class QNodeGroup : public QFrame
 {
   Q_OBJECT
 
 public:
 
-  explicit NodeGroup(QWidget *parent = 0);
-  ~NodeGroup();
+  explicit QNodeGroup(QWidget *parent = 0);
+  ~QNodeGroup();
 /*
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);

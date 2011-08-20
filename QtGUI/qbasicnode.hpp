@@ -13,7 +13,7 @@ namespace Ui {
     class BasicNode;
 }
 
-class BasicNode : public QFrame
+class QBasicNode : public QFrame
 {
   Q_OBJECT
 
@@ -24,9 +24,9 @@ class BasicNode : public QFrame
   QLabel *nameLabel;
 
 public:
-  explicit BasicNode(QWidget *parent = 0, QString name = QString("node"),
+  explicit QBasicNode(QWidget *parent = 0, QString name = QString("node"),
                      int in = 0, int out = 0);
-  ~BasicNode();
+  ~QBasicNode();
 
   vector < QToolButton *> inputs;
   vector < QToolButton *> outputs;
