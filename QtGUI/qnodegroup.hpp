@@ -1,3 +1,7 @@
+//! A Qt GUI class that holds a certain set of nodes.
+/*! All nodes need to be contained in a QNodeGroup, however, there can be multiple groups and they may communicate with each other.
+  */
+
 #ifndef NODEGROUP_HPP
 #define NODEGROUP_HPP
 
@@ -37,6 +41,8 @@ public:
     void paintEvent(QPaintEvent * pEvent);
 
 public slots:
+    /*! Adds a node to the group.
+      */
     void addNode();
 
 private:

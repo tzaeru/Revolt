@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     nodes/addition.cpp \
     QtGUI/qnodegroup.cpp \
     QtGUI/qbasicnode.cpp \
-    QtGUI/mainwindow.cpp
+    QtGUI/mainwindow.cpp \
+    QtGUI/qslot.cpp
 
 HEADERS  += nodes/supernode.hpp \
     nodes/timer.hpp \
@@ -28,7 +29,9 @@ HEADERS  += nodes/supernode.hpp \
     QtGUI/qnodegroup.hpp \
     QtGUI/qbasicnode.hpp \
     QtGUI/mainwindow.hpp \
-    info.hpp
+    info.hpp \
+    QtGUI/qslot.hpp \
+    nodecontainer.hpp
 
 FORMS    += QtGUI/mainwindow.ui \
     QtGUI/basicnode.ui

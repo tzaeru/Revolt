@@ -1,3 +1,5 @@
+/*! A basic node, all nodes should inherit this. */
+
 #ifndef BASICNODE_HPP
 #define BASICNODE_HPP
 
@@ -5,7 +7,7 @@
 #include <QMouseEvent>
 #include <QLabel>
 
-#include <QToolButton>
+#include "qslot.hpp"
 
 #include "info.hpp"
 

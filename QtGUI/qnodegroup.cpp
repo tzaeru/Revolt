@@ -13,24 +13,18 @@ QNodeGroup::QNodeGroup(QWidget *parent)
 
   setAcceptDrops(true);
 
-  /* OLD TESTCASE
-  lineImage = new QImage(this->parentWidget()->size(), QImage::Format_ARGB32);
-  lineImage->fill(QPalette::Window);
-  */
-
   /*Adding in actions for the menu. */
   QAction *act;
 
   act = new QAction(QString("Timer"), this);
-  act->setStatusTip(tr("Open an existing file"));
+  act->setStatusTip(tr("Timer"));
   connect(act, SIGNAL(triggered()), this, SLOT(addNode()));
   menu.addAction(act);
 
   act = new QAction(QString("Addition"), this);
-  act->setStatusTip(tr("Open an existing file"));
+  act->setStatusTip(tr("Addition"));
   connect(act, SIGNAL(triggered()), this, SLOT(addNode()));
   menu.addAction(act);
-  menu.addAction("Option 2");
 
   moving = false;
   movingLine = 0;
@@ -46,40 +40,32 @@ QNodeGroup::~QNodeGroup()
 
 void QNodeGroup::mousePressEvent(QMouseEvent *event)
 {
-  /* Old TESTCASE
-    QPainter painter(this->lineImage);
-
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setPen(QPen(Qt::SolidPattern, 0));
-    painter.drawLine(QPointF(qrand() % 300, qrand() % 300),
-                     QPointF(qrand() % 300,qrand() % 300));
-
-                     */
   this->update();
 
   if (moving)
     moving = NULL;
   if (event->button() == Qt::LeftButton)
   {
-    QFrame *child = static_cast<QLabel*>(childAt(event->pos()));
+    QFrame *child = static_cast<QLabel*>(childAt(mapFromGlobal(QCursor::pos())));
 
     if (child && child->objectName() == QString("BasicNode"))
       moving = child;
 
-    if (child && child->objectName() == QString("Slot"))
-    {
-
-    }
-
-   if (!moving && !movingLine && !child)
+   if (!moving && !movingLine && child && child->objectName() == QString("Slot"))
    {
      movingLine = true;
-     lines.push_back(QLine(event->pos(), event->pos()));
+     lines.push_back(QLine(QWidget::mapFromGlobal(QCursor::pos()), QWidget::mapFromGlobal(QCursor::pos())));
      lineMoved = lines.size()-1;
      //this->update();
    }
    else if (movingLine)
    {
+     if (child && child->objectName() == QString("Slot"))
+     {
+
+     }
+     else
+       lines.pop_back();
      movingLine = false;
    }
   }
@@ -110,20 +96,14 @@ void QNodeGroup::mouseReleaseEvent(QMouseEvent *event)
 
 void QNodeGroup::paintEvent(QPaintEvent * pEvent)
 {
+  QFrame::paintEvent(pEvent);
+
     QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setPen(QPen(Qt::SolidPattern, 0));
     for (int i = 0; i < lines.size(); i++)
       painter.drawLine(lines[i]);
-
-    /* OLD TESTCASE
-    painter.drawImage(this->rect(), *this->lineImage);
-
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setPen(QPen(Qt::SolidPattern, 0));
-    painter.drawLine(QPointF(qrand() % this->width(), qrand() % this->height()),
-                     QPointF(qrand() % this->width(), qrand() % this->height()));*/
 }
 
 void QNodeGroup::addNode()
@@ -133,22 +113,12 @@ void QNodeGroup::addNode()
 
   if (temp == "Timer")
   {
-    QFrame *timer = new QBasicNode(this, QString("timer"), 5, 0);
+    QFrame *timer = new QBasicNode(this, QString("timer"), 0, 1);
     timer->show();
   }
   else if (temp == "Addition")
   {
-    QFrame *timer = new QBasicNode(this, QString("addition"), 4, 0);
+    QFrame *timer = new QBasicNode(this, QString("addition"), 2, 1);
     timer->show();
   }
 }
-
-/*
-void NodeGroup::actionEvent(QActionEvent* event)
-{
-  if (event->action()->text() == QString("Timer"))
-  {
-
-  }
-}
-*/

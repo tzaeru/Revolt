@@ -1,4 +1,3 @@
-#include <QtGui/QApplication>
 #include "QtGUI/mainwindow.hpp"
 #include "info.hpp"
 
@@ -8,6 +7,7 @@
 
 int currentFrame;
 QTime myTimer;
+QApplication *app;
 
 int main(int argc, char *argv[])
 {
@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
 
   return 0;
   */
-    QApplication a(argc, argv);
+    app = new QApplication(argc, argv);
     MainWindow w;
     w.show();
 
-    return a.exec();
+    return qApp->exec();
 }

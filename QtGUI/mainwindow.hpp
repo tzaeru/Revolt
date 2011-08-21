@@ -1,3 +1,6 @@
+/*! Main window, contains initial QNodeGroup and file bar.
+  */
+
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 

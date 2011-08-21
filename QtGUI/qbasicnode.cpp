@@ -21,7 +21,7 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
 
   for (i = 0; i < in; i++)
   {
-    inputs.push_back(new QToolButton(this));
+    inputs.push_back(new QSlot(this, i));
 
     rect.setX(this->x() + 1 + i*13);
     rect.setWidth(12);
@@ -34,9 +34,9 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
     inputs[i]->show();
   }
 
-  for (j = 0; j < 4; j++)
+  for (j = 0; j < out; j++)
   {
-    outputs.push_back(new QToolButton(this));
+    outputs.push_back(new QSlot(this, j));
 
     rect.setX(this->x() + 1 + j*13);
     rect.setWidth(12);
