@@ -4,8 +4,8 @@
 #include "../info.hpp"
 #include "slot.hpp"
 
-/*! Superclass for all nodes.
-  SINK nodes' Update() is called from the main loop. Inside Update(),
+//! Superclass for all nodes.
+/*! SINK nodes' Update() is called from the main loop. Inside Update(),
   SINK does RequestData() to all the source nodes' outputs it's inputs
   are connected to.
   */

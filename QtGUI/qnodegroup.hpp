@@ -1,7 +1,3 @@
-//! A Qt GUI class that holds a certain set of nodes.
-/*! All nodes need to be contained in a QNodeGroup, however, there can be multiple groups and they may communicate with each other.
-  */
-
 #ifndef NODEGROUP_HPP
 #define NODEGROUP_HPP
 
@@ -20,6 +16,12 @@ namespace Ui {
 
 class QBasicNode;
 
+//! QNodeGroup is a graphical unit that owns a set of nodes created within it.
+/*! Basically, it also handles all the mouse and keyboard events,
+  * creation of more nodes, connecting of slots of nodes, so forth.
+  * Multiple NodeGroups are easy to create either as their own windows
+  * or as multiwindows by not specifying a parent to the new NodeGroup.
+  */
 class QNodeGroup : public QFrame
 {
   Q_OBJECT
@@ -41,29 +43,25 @@ public:
     void paintEvent(QPaintEvent * pEvent);
 
 public slots:
-    /*! Adds a node to the group.
-      */
+    //! Adds a node to the group.
     void addNode();
 
 private:
-  /*! Holds a pointer to any currently mouse dragged frames, else value is NULL
-    */
+  //! Holds a pointer to any currently mouse dragged frames, else value is NULL
   QFrame *moving;
-  /*! An image to which all lines between connected slots are drawn to.
-    */
+  //! An image to which all lines between connected slots are drawn to.
   QImage *lineImage;
 
-  /*! The menu to add nodes.
-    */
+  //! The menu to add nodes.
   QMenu menu;
 
-  /*! 1 if line is being moved, 0 if no line is being moved. */
+  //! 1 if line is being moved, 0 if no line is being moved.
   bool movingLine;
-  /*! Line that is being moved. */
+  //! Line that is being moved.
   int lineMoved;
-  /*! Which end of the line is being moved, 1 equals QPoint::p1, 2 equals QPoint::p2 */
+  //! Which end of the line is being moved, 1 equals QPoint::p1, 2 equals QPoint::p2
   char lineEnd;
-  /*! All the lines between spots. */
+  //! All the lines between spots.
   vector < QLine > lines;
 };
 

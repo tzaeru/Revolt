@@ -5,9 +5,14 @@
 #include "nodes/timer.hpp"
 #include "nodes/addition.hpp"
 
+#include "nodecontainer.hpp"
+
 int currentFrame;
 QTime myTimer;
 QApplication *app;
+
+std::vector< SuperNode* > node_container;
+std::map < std::string*, SuperNode* > node_names;
 
 int main(int argc, char *argv[])
 {

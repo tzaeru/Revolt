@@ -15,14 +15,12 @@ namespace Ui {
     class BasicNode;
 }
 
+//! Basic graphical node unit, holds input/output slots and keeps track of what's connected to what.
 class QBasicNode : public QFrame
 {
   Q_OBJECT
 
-  /*! If true, the node is being dragged.
-    */
-  bool moving;
-
+  //! Shows the name of the label or alternatively an icon.
   QLabel *nameLabel;
 
 public:
@@ -30,7 +28,9 @@ public:
                      int in = 0, int out = 0);
   ~QBasicNode();
 
+  //! Container for all inputs.
   vector < QToolButton *> inputs;
+  //! Container for all outputs.
   vector < QToolButton *> outputs;
 
 private:

@@ -3,6 +3,7 @@
 
 #include "supernode.hpp"
 
+//! A generic node for addition, variable amount of inputs.
 class Addition : public SuperNode
 {
 public:

@@ -1,5 +1,6 @@
 #include "qnodegroup.hpp"
 #include "qbasicnode.hpp"
+#include "../nodecontainer.hpp"
 
 #include <QtGui>
 
