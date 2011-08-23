@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+CONFIG += debug
+
 TARGET = WAR
 TEMPLATE = app
 

@@ -1,8 +1,12 @@
-#include "qnodegroup.hpp"
-#include "qbasicnode.hpp"
 #include "../nodecontainer.hpp"
 
 #include <QtGui>
+
+#include "qnodegroup.hpp"
+#include "qbasicnode.hpp"
+#include "qslot.hpp"
+
+#include "../nodes/supernode.hpp"
 
 QNodeGroup::QNodeGroup(QWidget *parent)
   : QFrame(parent)
@@ -28,7 +32,7 @@ QNodeGroup::QNodeGroup(QWidget *parent)
   menu.addAction(act);
 
   moving = false;
-  movingLine = 0;
+  moving_line = 0;
 
   this->setMouseTracking(true);
 }
@@ -47,29 +51,60 @@ void QNodeGroup::mousePressEvent(QMouseEvent *event)
     moving = NULL;
   if (event->button() == Qt::LeftButton)
   {
-    QFrame *child = static_cast<QLabel*>(childAt(mapFromGlobal(QCursor::pos())));
+    QWidget *child = childAt(mapFromGlobal(QCursor::pos()));
 
     if (child && child->objectName() == QString("BasicNode"))
       moving = child;
+    else if (!moving && !moving_line && child && child->objectName() == QString("Slot"))
+    {
+      moving_line = true;
 
-   if (!moving && !movingLine && child && child->objectName() == QString("Slot"))
-   {
-     movingLine = true;
-     lines.push_back(QLine(QWidget::mapFromGlobal(QCursor::pos()), QWidget::mapFromGlobal(QCursor::pos())));
-     lineMoved = lines.size()-1;
-     //this->update();
+      QSlot* child_slot = qobject_cast<QSlot *>(child);
+      temp_line_start = child_slot;
+      temp_line_end = mapFromGlobal(QCursor::pos());
+
+      //child_slot->setID(2);
+      //lines.push_back(QLine(QWidget::mapFromGlobal(QCursor::pos()), QWidget::mapFromGlobal(QCursor::pos())));
+      //this->update();
    }
-   else if (movingLine)
+   else if (moving_line)
    {
      if (child && child->objectName() == QString("Slot"))
      {
+        QSlot* child_slot = qobject_cast<QSlot *>(child);
 
+        if (child_slot->accessibleName() == QString("output") && temp_line_start->accessibleName() == QString("input"))
+        {
+          child_slot->connected_slots.push_back(temp_line_start);
+
+          QBasicNode *input_node = qobject_cast<QBasicNode *>(temp_line_start->parentWidget());
+          QBasicNode *output_node = qobject_cast<QBasicNode *>(child_slot->parentWidget());
+
+          QObject::connect(input_node, SIGNAL(updateLocation()), this, SLOT(updateLine()));
+          QObject::connect(output_node, SIGNAL(updateLocation()), this, SLOT(updateLine()));
+
+          input_node->node->Connect(temp_line_start->getID(), child_slot->getID(), output_node->node);
+        }
+        else if (child_slot->accessibleName() == QString("input") && temp_line_start->accessibleName() == QString("output"))
+        {
+          temp_line_start->connected_slots.push_back(child_slot);
+
+          QBasicNode *input_node = qobject_cast<QBasicNode *>(child_slot->parentWidget());
+          QBasicNode *output_node = qobject_cast<QBasicNode *>(temp_line_start->parentWidget());
+          QObject::connect(input_node, SIGNAL(updateLocation()), this, SLOT(updateLine()));
+          QObject::connect(output_node, SIGNAL(updateLocation()), this, SLOT(updateLine()));
+
+          input_node->node->Connect(child_slot->getID(), temp_line_start->getID(), output_node->node);
+        }
      }
-     else
-       lines.pop_back();
-     movingLine = false;
+     moving_line = false;
    }
   }
+}
+
+void QNodeGroup::updateLine()
+{
+  this->update();
 }
 
 void QNodeGroup::mouseMoveEvent(QMouseEvent *event)
@@ -78,9 +113,12 @@ void QNodeGroup::mouseMoveEvent(QMouseEvent *event)
   {
     moving->move(event->pos());
   }
-  if (movingLine)
+  if (moving_line)
   {
-    lines[lineMoved].setP2(event->pos());
+    temp_line_end = mapFromGlobal(QCursor::pos());
+    //lines[1][lineMoved] = QCursor::pos();
+
+    //lines[lineMoved].setP2(event->pos());
     this->update();
   }
 }
@@ -97,14 +135,32 @@ void QNodeGroup::mouseReleaseEvent(QMouseEvent *event)
 
 void QNodeGroup::paintEvent(QPaintEvent * pEvent)
 {
+
   QFrame::paintEvent(pEvent);
 
     QPainter painter(this);
 
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setPen(QPen(Qt::SolidPattern, 0));
-    for (int i = 0; i < lines.size(); i++)
-      painter.drawLine(lines[i]);
+
+    if (moving_line)
+    {
+      painter.drawLine(temp_line_start->parentWidget()->mapTo(this, temp_line_start->pos()), temp_line_end);
+    }
+    for (int node_count = 0; node_count < nodes.size(); node_count++)
+    {
+      for (int slot_count = 0; slot_count < nodes[node_count]->outputs.size(); slot_count++)
+      {
+        QSlot *line_start = nodes[node_count]->outputs[slot_count];
+        for (int connection_count = 0; connection_count < line_start->connected_slots.size(); connection_count++)
+        {
+          QSlot *line_end = line_start->connected_slots[connection_count];
+
+          painter.drawLine(line_end->parentWidget()->mapTo(this, line_end->pos()),
+                           line_start->parentWidget()->mapTo(this, line_start->pos()));
+        }
+      }
+    }
 }
 
 void QNodeGroup::addNode()
@@ -112,14 +168,18 @@ void QNodeGroup::addNode()
   QAction * action = qobject_cast<QAction *>(sender());
   QString temp = action->text();
 
+  QBasicNode *new_node;
+
   if (temp == "Timer")
   {
-    QFrame *timer = new QBasicNode(this, QString("timer"), 0, 1);
-    timer->show();
+    new_node = new QBasicNode(this, QString("timer"), 0, 1);
+    nodes.push_back(new_node);
+    new_node->show();
   }
   else if (temp == "Addition")
   {
-    QFrame *timer = new QBasicNode(this, QString("addition"), 2, 1);
-    timer->show();
+    new_node = new QBasicNode(this, QString("addition"), 2, 1);
+    nodes.push_back(new_node);
+    new_node->show();
   }
 }

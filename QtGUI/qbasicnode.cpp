@@ -1,5 +1,10 @@
+#include <QTimer>
+
 #include "qbasicnode.hpp"
 #include "ui_basicnode.h"
+
+#include "../nodes/addition.hpp"
+#include "../nodes/timer.hpp"
 
 QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
     QFrame(parent),
@@ -12,7 +17,21 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
   this->nameLabel->move(1, 13);
   this->nameLabel->show();
 
+  if (name == QString("addition"))
+    node = new Addition(in, out);
+  else if (name == QString("timer"))
+    node = new Timer(in, out);
+
+
   this->setObjectName(QString("BasicNode"));
+  this->setAccessibleName(name);
+
+  if (name == QString("addition"))
+  {
+    update_timer = new QTimer(this);
+    connect(update_timer, SIGNAL(timeout()), this, SLOT(updateNode()));
+    update_timer->start(1000/40);
+  }
 
   /*! Creating input and then output slots. */
   QRect rect;
@@ -31,6 +50,8 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
     inputs[i]->setChecked (false);
     inputs[i]->setGeometry(rect);
     inputs[i]->setObjectName("Slot");
+    inputs[i]->setAccessibleName("input");
+    inputs[i]->setID(i);
     inputs[i]->show();
   }
 
@@ -46,6 +67,8 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
     outputs[j]->setChecked (false);
     outputs[j]->setGeometry(rect);
     outputs[j]->setObjectName("Slot");
+    outputs[j]->setAccessibleName("output");
+    outputs[j]->setID(j);
     outputs[j]->show();
   }
 
@@ -62,4 +85,20 @@ QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
 QBasicNode::~QBasicNode()
 {
     delete ui;
+}
+
+void QBasicNode::updateNode()
+{
+  if (nameLabel->text() == QString("addition"))
+  {
+    node->Update();
+
+    this->update();
+  }
+}
+
+void QBasicNode::moveEvent( QMoveEvent * event )
+{
+
+  updateLocation();
 }

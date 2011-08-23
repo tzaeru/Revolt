@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
 
   return 0;
   */
+  myTimer.start();
+
     app = new QApplication(argc, argv);
     MainWindow w;
     w.show();

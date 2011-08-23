@@ -3,6 +3,7 @@
 
 #include "supernode.hpp"
 
+//! A basic timer.
 class Timer : public SuperNode
 {
 public:

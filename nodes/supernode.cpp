@@ -7,6 +7,7 @@ SuperNode::SuperNode(int aInputs, int aOutputs)
 
   for (int i = 0; i < aInputs; i++) {
     inputSlot[i].data.push_back(0);
+    inputSlot[i].connectedOutput = NULL;
     inputSlot[i].motherNode = this;
   }
 
@@ -18,5 +19,6 @@ SuperNode::SuperNode(int aInputs, int aOutputs)
 
 bool SuperNode::Connect(int input, int output, SuperNode *ConnectTo)
 {
+  cout<<"Object "<<object_name<<" connects it's input "<<input<<" to output "<<output<<" of "<<ConnectTo->object_name<<"\n";
   inputSlot[input].connectedOutput = &(ConnectTo->outputSlot[output]);
 }

@@ -14,6 +14,7 @@ namespace Ui {
     class NodeGroup;
 }
 
+class QSlot;
 class QBasicNode;
 
 //! QNodeGroup is a graphical unit that owns a set of nodes created within it.
@@ -48,21 +49,31 @@ public slots:
 
 private:
   //! Holds a pointer to any currently mouse dragged frames, else value is NULL
-  QFrame *moving;
+  QWidget *moving;
   //! An image to which all lines between connected slots are drawn to.
   QImage *lineImage;
 
   //! The menu to add nodes.
   QMenu menu;
 
+  //! List of nodes.
+  vector < QBasicNode *> nodes;
+
   //! 1 if line is being moved, 0 if no line is being moved.
-  bool movingLine;
+  bool moving_line;
   //! Line that is being moved.
-  int lineMoved;
+  int line_moved;
   //! Which end of the line is being moved, 1 equals QPoint::p1, 2 equals QPoint::p2
   char lineEnd;
-  //! All the lines between spots.
-  vector < QLine > lines;
+  //! Pointer to the slot from which a line is drawn.
+  QSlot *temp_line_start;
+  //! A temporary line end; Line that isn't yet connected.
+  QPoint temp_line_end;
+
+public slots:
+
+  //! Updates the line points.
+  void updateLine();
 };
 
 #endif // NODEGROUP_HPP

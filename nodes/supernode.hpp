@@ -17,6 +17,12 @@ private:
   bool ReadDataToInput();
 
 public:
+  //! Unique name of the node.
+  string identifier;
+
+  //! Non-unique name of the object that inherits from this.
+  string object_name;
+
   /*!
     \param aInputs amount of inputs the node has.
     \param aOutputs amount of outputs the node has.
