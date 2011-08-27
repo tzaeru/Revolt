@@ -6,12 +6,17 @@
 #include <QFrame>
 #include <QMouseEvent>
 #include <QLabel>
+#include <QGridLayout>
 
+#include "../nodecontainer.hpp"
 #include "qslot.hpp"
 #include "info.hpp"
 
 class QSlot;
-class SuperNode;
+
+namespace node {
+  class SuperNode;
+}
 
 namespace Ui {
     class BasicNode;
@@ -33,16 +38,26 @@ public:
   //! Shows the name of the label or alternatively an icon.
   QLabel *nameLabel;
 
+  QGridLayout *layout;
+
   //! Container for all inputs.
   vector < QSlot *> inputs;
   //! Container for all outputs.
   vector < QSlot *> outputs;
 
+  //! If the node shows something visual, update as needed.
+  QTimer *update_timer;
+
+  //! Pointer to the singleton of NodeHandler.
+  NodeHandler * node_handler;
+
+  //! Create input and output slots
+  void CreateSlots(int in, int out);
+
   //! Reimplemented to trigger the signal.
   void moveEvent ( QMoveEvent * event );
 
-  //! If the node shows something visual, update as needed.
-  QTimer *update_timer;
+  bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
   /*! Updates the location of the slot. */
@@ -50,7 +65,7 @@ signals:
 
 public slots:
   //! Reimplemented to update node.
-  void updateNode();
+  virtual void updateNode();
 
 private:
     Ui::BasicNode *ui;

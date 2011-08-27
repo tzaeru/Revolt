@@ -3,23 +3,23 @@
 
 #include "supernode.hpp"
 
+namespace node
+{
+
 //! A basic timer.
 class Timer : public SuperNode
 {
 public:
-  Timer(int aInputs, int aOutputs);
+  Timer();
 
-  //! Request data from the node.
-  /*!
-    \param slot The output slot from which data is requested.
-    \return False if the given data would be old (or node is broken), true if data is new.
-    */
-  bool RequestData(int slot) { return 0; }
   //! Updates data according to node's functionality.
   /*!
     \return True if update succesful, false if not (from whatever reason).
     */
   bool Update();
+
+  SuperNode* create_new() { return new Timer(); }
 };
 
+}
 #endif // TIMER_HPP

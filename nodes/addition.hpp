@@ -3,23 +3,24 @@
 
 #include "supernode.hpp"
 
+namespace node
+{
+
 //! A generic node for addition, variable amount of inputs.
 class Addition : public SuperNode
 {
 public:
-    Addition(int aInputs, int aOutputs);
+  Addition();
 
-    //! Request data from the node.
-    /*!
-      \param slot The output slot from which data is requested.
-      \return False if the given data would be old (or node is broken), true if data is new.
-      */
-    bool RequestData(int slot) { return 0; }
-    //! Updates data according to node's functionality.
-    /*!
+  //! Updates data according to node's functionality.
+  /*!
       \return True if update succesful, false if not (from whatever reason).
       */
-    bool Update();
+  bool Update();
+
+  SuperNode* create_new() { return new Addition(); }
 };
+
+}
 
 #endif // ADDITION_HPP

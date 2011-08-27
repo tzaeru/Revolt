@@ -7,39 +7,22 @@
 
 #include "nodecontainer.hpp"
 
+using namespace node;
+
 int currentFrame;
 QTime myTimer;
 QApplication *app;
 
-std::vector< SuperNode* > node_container;
-std::map < std::string*, SuperNode* > node_names;
-
 int main(int argc, char *argv[])
 {
-  /*
-  Timer timer(0, 1);
-  Addition addition(2, 1);
-  (void)addition.Connect(0, 0, &timer);
-  (void)addition.Connect(1, 0, &addition);
-  currentFrame = 0;
+  (void)NodeHandler::Instance();
 
   myTimer.start();
 
-  while (myTimer.elapsed() < 2000)
-  {
-    addition.Update();
-    currentFrame++;
-  }
 
-  printf("%d\n", currentFrame);
+  app = new QApplication(argc, argv);
+  MainWindow w;
+  w.show();
 
-  return 0;
-  */
-  myTimer.start();
-
-    app = new QApplication(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return qApp->exec();
+  return qApp->exec();
 }

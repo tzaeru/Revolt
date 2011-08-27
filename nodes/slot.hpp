@@ -3,6 +3,9 @@
 
 #include "../info.hpp"
 
+namespace node
+{
+
 class SuperNode;
 
 //! A generic slot holding the input/output data or the pointer to slot with the data.
@@ -14,16 +17,21 @@ class Slot
 public:
   Slot();
 
+  //! Identifier for the slot inside SuperNode.
+  int identifier;
   //! Amount of dimensions the datatype has.
   int dimensions;
   //! Size of an individual dimension.
   std::vector < int > dimension_size;
 
   //! The actual data.
-  std::vector < float > data;
+  std::vector < double > data;
 
   //! The output from which the data is read.
-  Slot *connectedOutput;
+  Slot *connected_output;
+
+  //! Array of inputs this slot is connected to, used when motherNode is deleted.
+  vector < Slot* > connected_inputs;
 
   //! Whether has updated data or not.
   int lastUpdated;
@@ -37,7 +45,10 @@ public:
   SuperNode *motherNode;
 
   bool ConnectToOutput(Slot *tempOutput);
-  bool DisconnectFromOutput();
+  //! Disconnected from output, called when the output slot or it's node is deleted.
+  void DisconnectFromOutput() { cout<<"Disconnecting slot: "<<identifier<<"\n";
+                               connected_output = NULL; };
 };
+}
 
 #endif // NODEDATA_HPP

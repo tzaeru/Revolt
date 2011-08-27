@@ -11,7 +11,7 @@
 #include <QPainter>
 
 namespace Ui {
-    class NodeGroup;
+class NodeGroup;
 }
 
 class QSlot;
@@ -31,21 +31,21 @@ public:
 
   explicit QNodeGroup(QWidget *parent = 0);
   ~QNodeGroup();
-/*
+  /*
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
     */
 
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *pEvent);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *pEvent);
 
-    void paintEvent(QPaintEvent * pEvent);
+  void paintEvent(QPaintEvent * pEvent);
 
 public slots:
-    //! Adds a node to the group.
-    void addNode();
+  //! Adds a node to the group.
+  void addNode();
 
 private:
   //! Holds a pointer to any currently mouse dragged frames, else value is NULL

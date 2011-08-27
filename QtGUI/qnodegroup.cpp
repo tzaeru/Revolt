@@ -4,6 +4,7 @@
 
 #include "qnodegroup.hpp"
 #include "qbasicnode.hpp"
+#include "qcounter.hpp"
 #include "qslot.hpp"
 
 #include "../nodes/supernode.hpp"
@@ -31,6 +32,11 @@ QNodeGroup::QNodeGroup(QWidget *parent)
   connect(act, SIGNAL(triggered()), this, SLOT(addNode()));
   menu.addAction(act);
 
+  act = new QAction(QString("Counter"), this);
+  act->setStatusTip(tr("Counter"));
+  connect(act, SIGNAL(triggered()), this, SLOT(addNode()));
+  menu.addAction(act);
+
   moving = false;
   moving_line = 0;
 
@@ -53,24 +59,25 @@ void QNodeGroup::mousePressEvent(QMouseEvent *event)
   {
     QWidget *child = childAt(mapFromGlobal(QCursor::pos()));
 
-    if (child && child->objectName() == QString("BasicNode"))
-      moving = child;
-    else if (!moving && !moving_line && child && child->objectName() == QString("Slot"))
+    if (child)
     {
-      moving_line = true;
+      if (child->objectName() == QString("BasicNode"))
+        moving = child;
+      else if (child->parentWidget()->objectName() == QString("BasicNode") && child->objectName() != QString("Slot"))
+        moving = child->parentWidget();
+      else if (!moving && !moving_line && child && child->objectName() == QString("Slot"))
+      {
+        moving_line = true;
 
-      QSlot* child_slot = qobject_cast<QSlot *>(child);
-      temp_line_start = child_slot;
-      temp_line_end = mapFromGlobal(QCursor::pos());
+        QSlot* child_slot = qobject_cast<QSlot *>(child);
+        temp_line_start = child_slot;
+        temp_line_end = mapFromGlobal(QCursor::pos());
+      }
 
-      //child_slot->setID(2);
-      //lines.push_back(QLine(QWidget::mapFromGlobal(QCursor::pos()), QWidget::mapFromGlobal(QCursor::pos())));
-      //this->update();
-   }
-   else if (moving_line)
-   {
-     if (child && child->objectName() == QString("Slot"))
-     {
+    else if (moving_line)
+    {
+      if (child && child->objectName() == QString("Slot"))
+      {
         QSlot* child_slot = qobject_cast<QSlot *>(child);
 
         if (child_slot->accessibleName() == QString("output") && temp_line_start->accessibleName() == QString("input"))
@@ -96,9 +103,10 @@ void QNodeGroup::mousePressEvent(QMouseEvent *event)
 
           input_node->node->Connect(child_slot->getID(), temp_line_start->getID(), output_node->node);
         }
-     }
-     moving_line = false;
-   }
+      }
+      moving_line = false;
+    }
+      }
   }
 }
 
@@ -138,29 +146,29 @@ void QNodeGroup::paintEvent(QPaintEvent * pEvent)
 
   QFrame::paintEvent(pEvent);
 
-    QPainter painter(this);
+  QPainter painter(this);
 
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setPen(QPen(Qt::SolidPattern, 0));
+  painter.setRenderHint(QPainter::Antialiasing, false);
+  painter.setPen(QPen(Qt::SolidPattern, 0));
 
-    if (moving_line)
+  if (moving_line)
+  {
+    painter.drawLine(temp_line_start->parentWidget()->mapTo(this, QPoint(temp_line_start->x() + temp_line_start->width()/2, temp_line_start->y() + temp_line_start->height()/2)), temp_line_end);
+  }
+  for (int node_count = 0; node_count < nodes.size(); node_count++)
+  {
+    for (int slot_count = 0; slot_count < nodes[node_count]->outputs.size(); slot_count++)
     {
-      painter.drawLine(temp_line_start->parentWidget()->mapTo(this, temp_line_start->pos()), temp_line_end);
-    }
-    for (int node_count = 0; node_count < nodes.size(); node_count++)
-    {
-      for (int slot_count = 0; slot_count < nodes[node_count]->outputs.size(); slot_count++)
+      QSlot *line_start = nodes[node_count]->outputs[slot_count];
+      for (int connection_count = 0; connection_count < line_start->connected_slots.size(); connection_count++)
       {
-        QSlot *line_start = nodes[node_count]->outputs[slot_count];
-        for (int connection_count = 0; connection_count < line_start->connected_slots.size(); connection_count++)
-        {
-          QSlot *line_end = line_start->connected_slots[connection_count];
+        QSlot *line_end = line_start->connected_slots[connection_count];
 
-          painter.drawLine(line_end->parentWidget()->mapTo(this, line_end->pos()),
-                           line_start->parentWidget()->mapTo(this, line_start->pos()));
-        }
+        painter.drawLine(line_end->parentWidget()->mapTo(this, QPoint(line_end->x() + line_end->width()/2, line_end->y() + line_end->height()/2)),
+                         line_start->parentWidget()->mapTo(this,  QPoint(line_start->x() + line_start->width()/2, line_start->y() + line_start->height()/2)));
       }
     }
+  }
 }
 
 void QNodeGroup::addNode()
@@ -179,6 +187,12 @@ void QNodeGroup::addNode()
   else if (temp == "Addition")
   {
     new_node = new QBasicNode(this, QString("addition"), 2, 1);
+    nodes.push_back(new_node);
+    new_node->show();
+  }
+  else if (temp == "Counter")
+  {
+    new_node = new QCounter(this, QString("counter"), 1, 0);
     nodes.push_back(new_node);
     new_node->show();
   }

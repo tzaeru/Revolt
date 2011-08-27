@@ -1,16 +1,16 @@
 #include "timer.hpp"
 
-Timer::Timer(int aInputs, int aOutputs)
-  : SuperNode(aInputs, aOutputs)
+Timer::Timer()
+  : SuperNode(0, 1)
 {
   object_name = "Timer";
 
   cout<<"Created object of type: "<<object_name<<"\n";
-  cout<<"Which has: "<<aInputs<<" inputs and "<<aOutputs<<" outputs.\n";
+  cout<<"Which has: "<<inputs<<" inputs and "<<outputs<<" outputs.\n";
 }
 
 bool Timer::Update()
 {
-  outputSlot[0].data[0] = myTimer.elapsed();
+  output_slot[0].data[0] = myTimer.elapsed();
   return 1;
 }

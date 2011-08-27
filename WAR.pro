@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     QtGUI/qnodegroup.cpp \
     QtGUI/qbasicnode.cpp \
     QtGUI/mainwindow.cpp \
-    QtGUI/qslot.cpp
+    QtGUI/qslot.cpp \
+    nodecontainer.cpp \
+    QtGUI/qcounter.cpp
 
 HEADERS  += nodes/supernode.hpp \
     nodes/timer.hpp \
@@ -33,7 +35,9 @@ HEADERS  += nodes/supernode.hpp \
     QtGUI/mainwindow.hpp \
     info.hpp \
     QtGUI/qslot.hpp \
-    nodecontainer.hpp
+    nodecontainer.hpp \
+    QtGUI/qcounter.hpp
 
 FORMS    += QtGUI/mainwindow.ui \
-    QtGUI/basicnode.ui
+    QtGUI/basicnode.ui \
+    QtGUI/qcounter.ui

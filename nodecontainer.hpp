@@ -6,18 +6,59 @@
 #include <map>
 #include <string>
 
-class SuperNode;
+#include "info.hpp"
 
-extern std::vector< SuperNode* > node_container;
-extern std::map < std::string*, SuperNode* > node_names;
+namespace node
+{
+  class SuperNode;
+}
 
+//! Contains all nodes, handles all insertions, renamings, deletions, and is a singleton.
+/*! Every software making use of the nodes should include this. Inserting, deleting,
+  renaming nodes has undefined behavior if done outside the scope of NodeHandler.
+  Program with multiple windows should use one NodeHandler. Programs sharing node
+  connections over sockets (either locally or over the internet) should each use
+  one instance of NodeHandler.
+  */
 class NodeHandler
 {
 public:
-  void removeNode(int i)
-  {
-    node_container.erase(node_container.begin() + i);
-  }
+  //! Holds a pointer to all existing classes, this is used as a template when creating new objects with class name.
+  std::map< string, node::SuperNode*> node_classes;
+
+  //! Holds a pointer to all existing node objects by their unique identifiers created with create_node().
+  std::map< string, node::SuperNode*> node_objects;
+
+  //! Holds the amount of total node objects created.
+  int objects_created;
+
+  //! Get a pointer to this object, new instance is created if none exist.
+  static NodeHandler* Instance();
+
+  //! Use to create a new object of a class.
+  /*!
+    \param class_name Name of the class for the object.
+    \return Pointer to the newly created object.
+    */
+  node::SuperNode* create_node(string class_name);
+
+  //! Use this to delete a node by unique name.
+  /*!
+    \param node_name Name of the object to be destroyed.
+    */
+  void delete_node(string node_name);
+
+  //! Use this to delete a node by pointer.
+  /*!
+    \param object Pointer to the object to be destroyed.
+    */
+  void delete_node(node::SuperNode* node);
+
+private:
+
+  NodeHandler();
+
+  static NodeHandler * instance;
 };
 
 #endif // NODECONTAINER_HPP

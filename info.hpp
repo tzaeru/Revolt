@@ -10,6 +10,9 @@
 
 using namespace std;
 
+namespace node { };
+using namespace node;
+
 extern QApplication *app;
 
 

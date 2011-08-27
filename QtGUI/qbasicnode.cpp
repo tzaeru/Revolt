@@ -7,84 +7,79 @@
 #include "../nodes/timer.hpp"
 
 QBasicNode::QBasicNode(QWidget *parent, QString name, int in, int out) :
-    QFrame(parent),
-    ui(new Ui::BasicNode)
+  QFrame(parent)
 {
-  ui->setupUi(this);
+  node_handler = NodeHandler::Instance();
+
+  layout = new QGridLayout;
+  layout->setSpacing(2);
+
+  this->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+  this->setAutoFillBackground(true);
 
   this->nameLabel = new QLabel(this);
   this->nameLabel->setText(name);
-  this->nameLabel->move(1, 13);
-  this->nameLabel->show();
+
+  nameLabel->installEventFilter(this);
 
   if (name == QString("addition"))
-    node = new Addition(in, out);
+    node = node_handler->create_node("Addition");
   else if (name == QString("timer"))
-    node = new Timer(in, out);
+    node = node_handler->create_node("Timer");
+  else if (name == QString("counter"))
+    node = new SuperNode(1, 0);
 
 
   this->setObjectName(QString("BasicNode"));
   this->setAccessibleName(name);
 
-  if (name == QString("addition"))
+  if (name == QString("counter"))
   {
     update_timer = new QTimer(this);
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateNode()));
-    update_timer->start(1000/40);
+    update_timer->start(1000/4);
   }
 
   /*! Creating input and then output slots. */
-  QRect rect;
+  CreateSlots(in, out);
 
+  layout->addWidget(nameLabel, 1, 0);
+
+  this->setLayout(layout);
+  layout->activate();
+  layout->setMargin(1);
+  this->show();
+}
+
+void QBasicNode::CreateSlots(int in, int out)
+{
   int i, j;
 
   for (i = 0; i < in; i++)
   {
     inputs.push_back(new QSlot(this, i));
-
-    rect.setX(this->x() + 1 + i*13);
-    rect.setWidth(12);
-    rect.setY(this->y() + 1);
-    rect.setHeight(12);
-
+    inputs[i]->setMinimumSize(12, 12);
+    inputs[i]->setMaximumSize(12, 12);
     inputs[i]->setChecked (false);
-    inputs[i]->setGeometry(rect);
     inputs[i]->setObjectName("Slot");
     inputs[i]->setAccessibleName("input");
     inputs[i]->setID(i);
-    inputs[i]->show();
+
+    layout->addWidget(inputs[i], 0, i, Qt::AlignLeft | Qt::AlignTop);
   }
 
   for (j = 0; j < out; j++)
   {
     outputs.push_back(new QSlot(this, j));
-
-    rect.setX(this->x() + 1 + j*13);
-    rect.setWidth(12);
-    rect.setY((this->y() + this->height()) - 14);
-    rect.setHeight(12);
-
-    outputs[j]->setChecked (false);
-    outputs[j]->setGeometry(rect);
+    outputs[j]->setMinimumSize(12, 12);
+    outputs[j]->setMaximumSize(12, 12);
     outputs[j]->setObjectName("Slot");
     outputs[j]->setAccessibleName("output");
     outputs[j]->setID(j);
-    outputs[j]->show();
+
+    layout->addWidget(outputs[j], 2, j);
   }
 
-  if (nameLabel->width() > i * 13 && nameLabel->width() > j * 13)
-    this->resize(nameLabel->width() + 13, nameLabel->height() + 28);
-  else if (i * 13 > j * 13)
-  {
-    this->resize(i * 13 + 13, nameLabel->height() + 28);
-  }
-  else
-    this->resize(j * 13 + 13, nameLabel->height() + 28);
-}
-
-QBasicNode::~QBasicNode()
-{
-    delete ui;
 }
 
 void QBasicNode::updateNode()
@@ -101,4 +96,25 @@ void QBasicNode::moveEvent( QMoveEvent * event )
 {
 
   updateLocation();
+}
+
+bool QBasicNode::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() == QEvent::MouseButtonPress)
+  {
+    QCoreApplication::sendEvent(this->parent(), (QEvent*)event);
+    return true;
+  }
+  else
+  {
+    // standard event processing
+    return QObject::eventFilter(obj, event);
+  }
+}
+
+
+QBasicNode::~QBasicNode()
+{
+  delete node;
+  delete ui;
 }
